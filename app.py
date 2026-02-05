@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 # ----------------------------
 # CONFIG
 # ----------------------------
-GOOGLE_API_KEY = "AIzaSyBbmUFrNucT0E3Mqfh5oovYspjEhOttc6c" # replace with your key
+GOOGLE_API_KEY = "" # replace with your key
 POP_TIFF = "ind_pd_2020_1km.tif"
 SEISMIC_ZIP = "Seismic_Zones (1).zip"
 EARTH_RADIUS = 6371.0
@@ -218,4 +218,5 @@ def analyze_location():
     return jsonify(records)
 
 if __name__=="__main__":
+
     app.run(debug=True)
