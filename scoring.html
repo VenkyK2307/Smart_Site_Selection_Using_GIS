@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Scoring Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { 
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#457aff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .container-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tooltip { position: relative; display: inline-block; cursor: pointer; }
+        .tooltip .tooltiptext {
+            visibility: hidden; width: 260px; background-color: #111;
+            color: #fff; border-radius: 0.5rem; padding: 8px; position: absolute;
+            z-index: 10; bottom: 125%; left: 50%; margin-left: -130px;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .tooltip .tooltiptext::after {
+            content: ""; position: absolute; top: 100%; left: 50%;
+            margin-left: -5px; border-width: 5px; border-style: solid;
+            border-color: #111 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        /* Professional table styling */
+        .table-pro th, .table-pro td {
+            padding: 12px 16px;
+            text-align: left;
+            white-space: nowrap; /* Prevents wrapping */
+        }
+        .table-pro thead {
+            background-color: #457aff;
+        }
+        .table-pro thead th {
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .table-pro tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .table-pro tbody tr:hover {
+            background-color: #e2e8f0;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        /* Professional CSS for Site Scoring Dashboard */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f1f5f9;
+}
+
+.container-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 260px;
+    background-color: #111;
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 8px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -130px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #111 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Table styling for the results table */
+.table-pro {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 0.5rem;
+    overflow: hidden; /* Ensures rounded corners apply to the entire table */
+}
+
+.table-pro th, .table-pro td {
+    padding: 12px 16px;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-pro thead {
+    background-color: #457aff;
+}
+
+.table-pro thead th {
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.table-pro tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.table-pro tbody tr:hover {
+    background-color: #e2e8f0;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Table styling for the scoring rules table */
+.scoring-rules-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.scoring-rules-table th, .scoring-rules-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.scoring-rules-table thead {
+    background-color: #cbd5e1;
+}
+
+.scoring-rules-table thead th {
+    color: #374151;
+    font-weight: 600;
+}
+
+.nextpage {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.nextpage a button {
+  background-color: #457aff;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nextpage a button:hover {
+  background-color: #3867d6; /* A slightly darker shade for hover effect */
+  transform: translateY(-2px); /* Lifts the button slightly on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.nextpage a button:active {
+  background-color: #2b54a6; /* A darker shade for active state */
+  transform: translateY(0); /* Resets the button position on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nextpage a {
+  text-decoration: none;
+}
+    </style>
+</head>
+<body class="p-6 sm:p-10">
+
+    <div class="max-w-7xl mx-auto bg-white rounded-xl container-shadow p-6 sm:p-10">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 text-center">🌍 Site Scoring Dashboard</h1>
+        <p class="text-gray-600 text-center mb-8">Hover on each score for detailed remarks.</p>
+
+        <div id="results-container" class="overflow-x-auto"></div>
+
+        <div class="nextpage">
+            <a href="map.html">
+                <button>
+                    Show Map
+                </button>
+            </a>
+        </div>
+
+    
+
+        <!-- <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-4">📊 Scoring Rules</h2> -->
+        <!-- <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Parameter</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Scoring Logic</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
+                    <tr><td class="px-4 py-2 font-medium">Hospital Distance</td><td class="px-4 py-2">Closer = Higher score (Inverse Linear)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Road Proximity</td><td class="px-4 py-2">Closer = Higher score (Inverse Linear)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Transport Distance</td><td class="px-4 py-2">Closer = Higher score (Inverse Linear)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Elevation</td><td class="px-4 py-2">Near mean = Higher score (Gaussian)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Population Density</td><td class="px-4 py-2">Near mean = Higher score (Gaussian)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Protection Score</td><td class="px-4 py-2">Higher = Better (Linear)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Air Quality</td><td class="px-4 py-2">Higher = Better (Linear)</td></tr>
+                    <tr><td class="px-4 py-2 font-medium">Seismic Zone</td><td class="px-4 py-2">Zone-II = Best, Zone-V = Worst (Fixed Mapping)</td></tr>
+                </tbody>
+            </table>
+        </div> -->
+    </div>
+
+    <script>
+        async function loadCSV() {
+            const res = await fetch("location_analysis_results.csv");
+            const text = await res.text();
+            return parseCSV(text);
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+            return lines.slice(1).map(line => {
+                const values = line.split(',').map(v => v.trim());
+                return headers.reduce((obj,h,i)=>{
+                    let val = values[i];
+                    if(!isNaN(val) && val!=="") val = parseFloat(val);
+                    obj[h] = val;
+                    return obj;
+                },{});
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await loadCSV();
+
+            // helper scoring
+            const minMaxScore=(val,min,max,invert=false)=>{
+                if(max===min) return 100;
+                if(invert) return ((max-val)/(max-min))*100;
+                return ((val-min)/(max-min))*100;
+            }
+            const gaussian=(val,mean,std)=>{
+                if(std===0) return 100;
+                return Math.exp(-Math.pow(val-mean,2)/(2*Math.pow(std,2)))*100;
+            }
+            const seismicScore=z=>{
+                const map={"Seismic Zone-II":100,"Seismic Zone-III":60,"Seismic Zone-IV":30,"Seismic Zone-V":0};
+                return map[z]??50;
+            }
+
+            // compute stats
+            const hosp=data.map(d=>d.Total_Hospital_km);
+            const road=data.map(d=>d.Nearest_Road_m);
+            const trans=data.map(d=>d.Avg_Transport_km);
+            const elev=data.map(d=>d.Elevation_m);
+            const pop=data.filter(d=>d.Pop_Density>0).map(d=>d.Pop_Density);
+            const prot=data.map(d=>d.Protection_Score);
+            const air=data.map(d=>d.Air_Quality);
+            const minHosp=Math.min(...hosp), maxHosp=Math.max(...hosp);
+            const minRoad=Math.min(...road), maxRoad=Math.max(...road);
+            const minTrans=Math.min(...trans), maxTrans=Math.max(...trans);
+            const meanElev=elev.reduce((a,b)=>a+b,0)/elev.length;
+            const stdElev=Math.sqrt(elev.map(x=>Math.pow(x-meanElev,2)).reduce((a,b)=>a+b)/elev.length);
+            const meanPop=pop.reduce((a,b)=>a+b,0)/pop.length;
+            const stdPop=Math.sqrt(pop.map(x=>Math.pow(x-meanPop,2)).reduce((a,b)=>a+b)/pop.length);
+            const minProt=Math.min(...prot), maxProt=Math.max(...prot);
+
+            const scored=data.map(d=>{
+                const s={};
+                s.Hospital=minMaxScore(d.Total_Hospital_km,minHosp,maxHosp,true).toFixed(1);
+                s.Road=minMaxScore(d.Nearest_Road_m,minRoad,maxRoad,true).toFixed(1);
+                s.Transport=minMaxScore(d.Avg_Transport_km,minTrans,maxTrans,true).toFixed(1);
+                s.Elevation=gaussian(d.Elevation_m,meanElev,stdElev).toFixed(1);
+                s.Pop=d.Pop_Density>0?gaussian(d.Pop_Density,meanPop,stdPop).toFixed(1):0;
+                s.Protection=minMaxScore(d.Protection_Score,minProt,maxProt).toFixed(1);
+                s.Air=minMaxScore(d.Air_Quality,0,100).toFixed(1);
+                s.Seismic=seismicScore(d.Seismic_Zone).toFixed(1);
+                const vals=Object.values(s).map(Number);
+                const overall=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
+                return {id:d.ID,lat:d.Lat,lon:d.Lon,scores:s,overall};
+            });
+
+            // render table
+            document.getElementById("results-container").innerHTML=`
+                <table class="min-w-full divide-y divide-gray-200 border rounded-lg table-pro">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th class="px-3 py-2 text-left text-sm font-medium">ID</th>
+                            <th class="px-3 py-2 text-left text-sm font-medium">Lat</th>
+                            <th class="px-3 py-2 text-left text-sm font-medium">Lon</th>
+                            <th class="px-3 py-2 text-left text-sm font-medium">Scores </th>
+                            
+                            <th class="px-3 py-2 text-left text-sm font-medium">Overall</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        ${scored.map(r=>`
+                            <tr>
+                                <td class="px-3 py-2">${r.id}</td>
+                                <td class="px-3 py-2">${r.lat}</td>
+                                <td class="px-3 py-2">${r.lon}</td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Hospital}<span class="tooltiptext">Hospital score = ${r.scores.Hospital}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Road}<span class="tooltiptext">Road score = ${r.scores.Road}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Transport}<span class="tooltiptext">Transport score = ${r.scores.Transport}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Elevation}<span class="tooltiptext">Elevation score = ${r.scores.Elevation}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Pop}<span class="tooltiptext">Pop score = ${r.scores.Pop}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Protection}<span class="tooltiptext">Protection score = ${r.scores.Protection}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Air}<span class="tooltiptext">Air score = ${r.scores.Air}/100</span></td>
+                                <td class="px-3 py-2 tooltip">${r.scores.Seismic}<span class="tooltiptext">Seismic score = ${r.scores.Seismic}/100</span></td>
+                                <td class="px-3 py-2 font-bold text-primary">${r.overall}</td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>`;
+        });
+    </script>
+</body>
+</html>
